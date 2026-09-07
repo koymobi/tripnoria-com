@@ -1,0 +1,7 @@
+document.addEventListener("DOMContentLoaded",function(){
+  var toggle=document.querySelector(".menu-toggle"),nav=document.querySelector(".nav");
+  if(toggle&&nav){toggle.addEventListener("click",function(){var open=nav.classList.toggle("open");toggle.setAttribute("aria-expanded",String(open));});nav.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){nav.classList.remove("open");toggle.setAttribute("aria-expanded","false");});});}
+  var year=document.querySelector("[data-year]");if(year)year.textContent=new Date().getFullYear();
+  var input=document.getElementById("searchInput"),results=document.getElementById("searchResults"),empty=document.getElementById("searchEmpty"),dataNode=document.getElementById("articleData");
+  if(input&&results&&dataNode){var items=JSON.parse(dataNode.textContent);function render(q){var term=q.trim().toLowerCase();var matches=term?items.filter(function(x){return (x.title+" "+x.category+" "+x.description).toLowerCase().indexOf(term)>-1;}):items;results.innerHTML=matches.map(function(x){return '<article class="article-card"><a class="media" href="'+x.url+'"><img src="'+x.image+'" alt="" loading="lazy"></a><span class="eyebrow">'+x.category+'</span><h3><a href="'+x.url+'">'+x.title+'</a></h3><p>'+x.description+'</p></article>';}).join("");empty.style.display=matches.length?"none":"block";}input.addEventListener("input",function(){render(input.value);});render("");}
+});
